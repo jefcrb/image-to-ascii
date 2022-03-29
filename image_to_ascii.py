@@ -17,7 +17,6 @@ def check_img(args):
 
 
 def check_args(args):
-    print(args)
     idx = 0
     res = 0
     charset = ""
@@ -50,6 +49,8 @@ Usage: image_to_ascii <image> [resolution] [charset] [output file]
 -o  Specify output file
 -h  Show this help message""")
 
+def success():
+    print("Program finished successfully")
 
 image = check_img(sys.argv)
 sqrt_pixels_per_char, CHARS, output_file = check_args(sys.argv)
@@ -95,7 +96,8 @@ for r in range(chars_per_column):
 idx = 0
 for val in pixels:
     val = int((val/255)*len(CHARS))
-    ascii_img += CHARS[val]
+    ascii_img += CHARS[val%len(CHARS)]
+    ascii_img += CHARS[val%len(CHARS)]
 
     if idx%(width/sqrt_pixels_per_char) == 0:
         ascii_img += "\n"
@@ -108,5 +110,7 @@ if output_file:
     f.truncate(0)
     f.write(ascii_img)
     f.close()
+    success()
 else:
     print(ascii_img)
+    success()
